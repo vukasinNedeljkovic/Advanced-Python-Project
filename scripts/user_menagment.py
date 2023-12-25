@@ -44,3 +44,9 @@ def logout(username):
         print(f"User {username} has been logged out.")
     else:
         print(f"User {username} is not logged in.")
+
+def check_user_logged_in(username):
+    return username in logged_in_users
+
+def get_user_by_username(username):
+    return [user for user in registered_users if user.username == username]

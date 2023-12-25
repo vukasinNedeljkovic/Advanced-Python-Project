@@ -1,5 +1,6 @@
 from user import *
 from user_menagment import *
+from handling_contacts import *
 
 
 def display_menu():
@@ -27,6 +28,19 @@ def login_user():
     password = input("Enter password: ")
     login(username, password)
 
+def add_contact_input():
+    username = input("Enter username: ")
+    contact = input("Enter contact: ")
+    add_contact(username, contact)
+
+def remove_contact_input():
+    username = input("Enter username: ")
+    remove_contact(username)
+
+def print_contact_input():
+    username = input("Enter username: ")
+    print_contact(username)
+
 def logout_user():
     username = input("Enter username to logout: ")
     logout(username)
@@ -39,6 +53,12 @@ def main():
             register_user()
         elif choice == '2':
             login_user()
+        elif choice == '3':
+            add_contact_input()
+        elif choice == '4':
+            remove_contact_input()
+        elif choice == '5':
+            print_contact_input()
         elif choice == '6':
             logout_user()
         elif choice == '7':
