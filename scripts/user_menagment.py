@@ -49,4 +49,4 @@ def check_user_logged_in(username):
     return username in logged_in_users
 
 def get_user_by_username(username):
-    return [user for user in registered_users if user.username == username]
+    return registered_users.get(username)

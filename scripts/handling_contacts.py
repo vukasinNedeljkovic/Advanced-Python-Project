@@ -3,7 +3,8 @@ import user_menagment
 
 def add_contact(username, contact):
     if not user_menagment.check_user_logged_in(username):
-        raise Exception("User is not logged in")
+        print("User is not logged in")
+        return
 
     user = user_menagment.get_user_by_username(username)
     user.contacts = contact
@@ -11,15 +12,20 @@ def add_contact(username, contact):
 
 def remove_contact(username):
     if not user_menagment.check_user_logged_in(username):
-        raise Exception("User is not logged in")
+        print("User is not logged in")
+        return
 
     user = user_menagment.get_user_by_username(username)
-    del user.contacts
-    print("Contact removed")
+    if len(user.contacts) > 0:
+        del user.contacts
+        print("Contact removed")
+    else:
+        print("User does not have contacts to remove")
 
 def print_contact(username):
     if not user_menagment.check_user_logged_in(username):
-        raise Exception("User is not logged in")
+        print("User is not logged in")
+        return
 
     user = user_menagment.get_user_by_username(username)
     contacts_iter = iter(user)
@@ -28,7 +34,7 @@ def print_contact(username):
         index = 0
         while True:
             contact = next(contacts_iter)
-            print("[%d] %s", index, contact)
+            print(f"[{index}] {contact}")
             index += 1
     except StopIteration:
         pass
