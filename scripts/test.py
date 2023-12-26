@@ -1,4 +1,7 @@
 import unittest
+import io
+import sys
+
 from user import *
 from functions import *
 import hash
@@ -7,6 +10,17 @@ from unittest.mock import patch, MagicMock
 
 
 class User_management_test_class(unittest.TestCase):
+
+    def setUp(self):
+        registered_users.clear()
+        logged_in_users.clear()
+
+        capturedOutput = io.StringIO()
+        sys.stdout = capturedOutput
+
+
+    def tearDown(self):
+        sys.stdout = sys.__stdout__
 
     # Create user with valid username/password
     @patch('hash.hash_password')
@@ -19,7 +33,6 @@ class User_management_test_class(unittest.TestCase):
         self.assertEqual(user.username, username)
         self.assertEqual(user.password, 'hashed pass')
         self.assertEqual(len(user.contacts), 0)
-
 
     # Create user with invalid password
     @patch('hash.hash_password')
@@ -132,32 +145,108 @@ class User_management_test_class(unittest.TestCase):
         pass
 
     # Logout with user that is not logged in
-    def logout_not_logged_in(self):
-        pass
+    def test_logout_not_logged_in(self):
+        logged_in_users.append("User1")
+        logged_in_users.append("User2")
+        logged_in_users.append("User3")
+
+        logout("User4")
+
+        self.assertEqual(3, len(logged_in_users))
 
     # Add contact valid
-    def add_contact_valid(self):
-        pass
+    def test_add_contact_valid(self):
+        user = User("User1", "123")
+        contact1 = "Marko"
+        contact2 = "Jovana"
+        registered_users[user.username] = user
+        logged_in_users.append(user.username)
+        
+        self.assertEqual(0, len(user.contacts))
+
+        add_contact(user.username, contact1)
+
+        self.assertEqual(1, len(user.contacts))
+        self.assertEqual(contact1, user.contacts[0])
+
+        add_contact(user.username, contact2)
+
+        self.assertEqual(2, len(user.contacts))
+        self.assertEqual(contact2, user.contacts[1])
 
     # Add contact with user that is not logged in
-    def add_contact_not_logged_user(self):
-        pass
+    def test_add_contact_not_logged_user(self):
+        user = User("User1", "123")
+        contact = "Marko"
+        registered_users[user.username] = user
+        
+        self.assertEqual(0, len(user.contacts))
+
+        add_contact(user.username, contact)
+
+        self.assertEqual(0, len(user.contacts))
 
     # Remove contact valid
-    def remove_contact_valid(self):
-        pass
+    def test_remove_contact_valid(self):
+        user = User("User1", "123")
+        contact1 = "Marko"
+        contact2 = "Jovana"
+        user.contacts = contact1
+        user.contacts = contact2
+        registered_users[user.username] = user
+        logged_in_users.append(user.username)
+        
+        self.assertEqual(2, len(user.contacts))
+
+        remove_contact(user.username)
+
+        self.assertEqual(1, len(user.contacts))
+        self.assertEqual(contact1, user.contacts[0])
+
+        remove_contact(user.username)
+
+        self.assertEqual(0, len(user.contacts))
 
     # Remove contact, user not logged in
-    def remove_contact_not_logged_user(self):
-        pass
+    def test_remove_contact_not_logged_user(self):
+        user = User("User1", "123")
+        contact1 = "Marko"
+        contact2 = "Jovana"
+        user.contacts = contact1
+        user.contacts = contact2
+        registered_users[user.username] = user
+        
+        self.assertEqual(2, len(user.contacts))
+
+        remove_contact(user.username)
+
+        self.assertEqual(2, len(user.contacts))
 
     # Print contact
-    def print_contacts(self):
-        pass
+    @unittest.mock.patch('sys.stdout', new_callable=io.StringIO)
+    def test_print_contacts(self, mock_stdout):
+        user = User("User1", "123")
+        contact1 = "Marko"
+        contact2 = "Jovana"
+        user.contacts = contact1
+        user.contacts = contact2
+        registered_users[user.username] = user
+        logged_in_users.append(user.username)
+        expected_output = "Contacts for user '" + user.username + "':\n[0] Marko\n[1] Jovana\n"
+
+        print_contact(user.username)
+     
+        self.assertEqual(mock_stdout.getvalue(), expected_output)
 
     # Print contact, user not logged in
-    def print_contacts_not_logged_user(self):
-        pass
+    @unittest.mock.patch('sys.stdout', new_callable=io.StringIO)
+    def test_print_contacts_not_logged_user(self, mock_stdout):
+        username = "User4"
+        expected_output = "User " + username + " is not logged in. Please log in first.\n"
+
+        print_contact(username)
+     
+        self.assertEqual(mock_stdout.getvalue(), expected_output)
 
 
 if __name__ == '__main__':
