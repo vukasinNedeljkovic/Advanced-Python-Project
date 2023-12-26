@@ -1,6 +1,5 @@
 from user import *
-from user_menagment import *
-from handling_contacts import *
+from functions import *
 
 
 def display_menu():
