@@ -76,18 +76,16 @@ class User_management_test_class(unittest.TestCase):
     # Getter/setter/deleter for contact
     def test_get_set_del_contact(self):
         user1 = User("user1", "12345")
-        user2 = User("user2", "12345")
-        user3 = User("user3", "12345")
 
-        user1.contacts = user2
+        user1.contacts = "user2"
         self.assertEqual(len(user1.contacts), 1)
-        self.assertEqual(user1.contacts[0], user2)
+        self.assertEqual(user1.contacts[0], "user2")
         
-        user1.contacts = user3
+        user1.contacts = "user3"
         self.assertEqual(len(user1.contacts), 2)
 
-        self.assertIn(user2, user1.contacts)
-        self.assertIn(user3, user1.contacts)
+        self.assertIn("user2", user1.contacts)
+        self.assertIn("user3", user1.contacts)
 
         del user1.contacts
         self.assertEqual(len(user1.contacts), 1)
@@ -95,25 +93,21 @@ class User_management_test_class(unittest.TestCase):
     # length method
     def test_lenght_method(self):
         user1 = User("user1", "12345")
-        user2 = User("user2", "12345")
-        user3 = User("user3", "12345")
         
         self.assertEqual(len(user1), 0)
-        user1.contacts = user2
+        user1.contacts = "user2"
         self.assertEqual(len(user1), 1)
-        user1.contacts = user3
+        user1.contacts = "user3"
         self.assertEqual(len(user1), 2)
 
     # str method
     def test_str_method(self):
         user1 = User("user1", "12345")
-        user2 = User("user2", "12345")
-        user3 = User("user3", "12345")
 
         self.assertEqual(str(user1), "Username: user1, Contacts: []")
-        user1.contacts = user2
+        user1.contacts = "user2"
         self.assertEqual(str(user1), "Username: user1, Contacts: ['user2']")
-        user1.contacts = user3
+        user1.contacts = "user3"
         self.assertEqual(str(user1), "Username: user1, Contacts: ['user2', 'user3']")
 
     # iterator

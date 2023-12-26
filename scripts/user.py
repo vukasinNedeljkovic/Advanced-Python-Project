@@ -45,7 +45,7 @@ class User:
         return len(self._contacts)
 
     def __str__(self):
-        return f"Username: {self._username}, Contacts: {[contact._username for contact in self._contacts]}"
+        return f"Username: {self._username}, Contacts: {[contact for contact in self._contacts]}"
 
     def __iter__(self):
         self.n = 0

@@ -68,21 +68,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-    #user = User("User", "123")
-    #user1 = User("User1", "123")
-    #user2 = User("User2", "123")
-    #user.contacts = user1
-    #user.contacts = user2
-
-    #print(user.username)
-    #print(user.password)
-    #print(user)
-
-
-    #iterrator = iter(user)
-    #try:
-        #while True:
-            #print(next(iterrator))
-    #except StopIteration:
-        #print('Done')
