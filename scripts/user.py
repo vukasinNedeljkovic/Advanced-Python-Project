@@ -10,6 +10,10 @@ class User:
     def username(self):
         return self._username
 
+    @username.setter
+    def username(self, value):
+        self._username = value
+
     @property
     def password(self):
         return self._password
