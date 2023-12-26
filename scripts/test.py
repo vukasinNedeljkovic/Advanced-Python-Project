@@ -111,32 +111,68 @@ class User_management_test_class(unittest.TestCase):
         self.assertEqual(str(user1), "Username: user1, Contacts: ['user2', 'user3']")
 
     # iterator
-    def iterator_test(self):
-        pass
+    def test_iterator_test(self):
+        user = User("User1", "123")
+        contacts = ["contact1", "contact2", "contact3"]
+        user.contacts = contacts[0]
+        user.contacts = contacts[1]
+        user.contacts = contacts[2]
+        iterator = iter(user)
+        for contact in contacts:
+            self.assertEqual(next(iterator), contact)
+        with self.assertRaises(StopIteration):
+            next(iterator)
 
     # Register with valid params
-    def register_valid(self):
-        pass
+    def test_register_valid(self):
+        username = "User1"
+        password = "123"
+        user = register(username, password)
 
-    # Register with invalid params
-    def register_invalid(self):
-        pass
+        self.assertTrue(username in registered_users)
+        self.assertEqual(registered_users[username], user)
+        self.assertEqual(user.password, hash.hash_password(password))
+
+    #Register with invalid params
+    @patch('hash.hash_password')
+    def test_register_invalid(self, mock_hash_password):
+        username = "User1"
+        password = "123456789101112" 
+        mock_hash_password.return_value = 'hashed pass'
+
+        with self.assertRaises(ValueError):
+            register(username, password)
     
     # Login with valid params
-    def login_valid(self):
-        pass
+    @patch('multiprocessing.Process')
+    def test_login_valid(self, mock_process):
+        username = "User1"
+        password = "123"
+        register(username, password)  
+        login(username, password)
+        self.assertEqual(1, len(logged_in_users))
 
     # Login with invalid params
-    def login_invalid(self):
-        pass
+    def test_login_invalid(self):
+        username = "User1"
+        valid_password = "123"
+        invalid_password = "1234"
+        register(username, valid_password)
+        login(username, invalid_password)
+        self.assertFalse(username in logged_in_users)
 
     # Login with non existing user
-    def login_non_exist(self):
-        pass
+    def test_login_non_exist(self):
+        username = "User1"
+        password = "123" 
+        login(username, password)
+        self.assertFalse(username in logged_in_users)
 
     # Logout
-    def logout_test(self):
-        pass
+    def test_logout(self):
+        logged_in_users.append("User1")
+        logout("User1")
+        self.assertNotIn("User1", logged_in_users)
 
     # Logout with user that is not logged in
     def test_logout_not_logged_in(self):
