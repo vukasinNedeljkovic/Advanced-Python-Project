@@ -1,6 +1,10 @@
 import unittest
 import io
 import sys
+from pathlib import Path
+path = str(Path.cwd()) + "//.."
+print(path)
+sys.path.insert(0, path)
 
 from functions import *
 import hash
