@@ -1,5 +1,5 @@
-from user import *
-from functions import *
+from user_management_lib import functions
+import time
 
 
 def display_menu():
@@ -18,31 +18,31 @@ def display_menu():
 def register_user():
     username = input("Enter username: ")
     password = input("Enter password: ")
-    user = register(username, password)
+    user = functions.register(username, password)
     if user:
         print("Registration successful.")
 
 def login_user():
     username = input("Enter username: ")
     password = input("Enter password: ")
-    login(username, password)
+    functions.login(username, password)
 
 def add_contact_input():
     username = input("Enter username: ")
     contact = input("Enter contact: ")
-    add_contact(username, contact)
+    functions.add_contact(username, contact)
 
 def remove_contact_input():
     username = input("Enter username: ")
-    remove_contact(username)
+    functions.remove_contact(username)
 
 def print_contact_input():
     username = input("Enter username: ")
-    print_contact(username)
+    functions.print_contact(username)
 
 def logout_user():
     username = input("Enter username to logout: ")
-    logout(username)
+    functions.logout(username)
 
 
 def main():

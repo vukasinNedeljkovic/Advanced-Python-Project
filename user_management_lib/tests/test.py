@@ -2,7 +2,6 @@ import unittest
 import io
 import sys
 
-from user import *
 from functions import *
 import hash
 
