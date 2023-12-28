@@ -18,7 +18,7 @@ setuptools.setup(
     ext_modules=[
         setuptools.Extension(
             name='hash',
-            sources=['hash/hash.c']
+            sources=['user_management_lib/hash.c']
         )
     ]
 )

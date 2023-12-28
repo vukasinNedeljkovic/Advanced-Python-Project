@@ -1,15 +1,9 @@
 import unittest
 import io
 import sys
-from pathlib import Path
-path = str(Path.cwd()) + "//.."
-print(path)
-sys.path.insert(0, path)
 
-from functions import *
-import hash
-
-from unittest.mock import patch, MagicMock
+from user_management_lib.functions import *
+from unittest.mock import patch
 
 
 class User_management_test_class(unittest.TestCase):

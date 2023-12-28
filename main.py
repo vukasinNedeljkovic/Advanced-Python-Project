@@ -1,4 +1,4 @@
-from user_management_lib import functions
+from user_management_lib.functions import *
 import time
 
 
@@ -11,38 +11,38 @@ def display_menu():
     print("5. Print contact")
     print("6. Logout")
     print("7. Exit")
-    time.sleep(2)
+    time.sleep(1)
     choice = input("Enter your choice: ")
     return choice.strip()
 
 def register_user():
     username = input("Enter username: ")
     password = input("Enter password: ")
-    user = functions.register(username, password)
+    user = register(username, password)
     if user:
         print("Registration successful.")
 
 def login_user():
     username = input("Enter username: ")
     password = input("Enter password: ")
-    functions.login(username, password)
+    login(username, password)
 
 def add_contact_input():
     username = input("Enter username: ")
     contact = input("Enter contact: ")
-    functions.add_contact(username, contact)
+    add_contact(username, contact)
 
 def remove_contact_input():
     username = input("Enter username: ")
-    functions.remove_contact(username)
+    remove_contact(username)
 
 def print_contact_input():
     username = input("Enter username: ")
-    functions.print_contact(username)
+    print_contact(username)
 
 def logout_user():
     username = input("Enter username to logout: ")
-    functions.logout(username)
+    logout(username)
 
 
 def main():
