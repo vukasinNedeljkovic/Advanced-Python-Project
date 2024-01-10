@@ -26,20 +26,26 @@ class User_management_test_class(unittest.TestCase):
         password = "123456789"
         mock_hash_password.return_value = 'hashed pass'
 
-        user = User(username, password)
+        user = User(username, hash.hash_password(password))
         self.assertEqual(user.username, username)
         self.assertEqual(user.password, 'hashed pass')
         self.assertEqual(len(user.contacts), 0)
 
     # Create user with invalid password
-    @patch('hash.hash_password')
-    def test_create_user_invalid_pass(self, mock_hash_password):
+    def test_create_user_invalid_pass(self):
         username = "User1"
         password = "12345678901234"
-        mock_hash_password.return_value = 'hashed pass'
 
+        user = User(username, password)
         with self.assertRaises(ValueError):
-            User(username, password)
+            user.validate_password(password)
+
+        username2 = "User2"
+        password2 = "xxx"
+        user = User(username2, password2)
+        with self.assertRaises(ValueError):
+            user.validate_password(password2)
+        
 
     # Getter/setter for username
     def test_getter_setter_username(self):
@@ -54,21 +60,19 @@ class User_management_test_class(unittest.TestCase):
         user.username = new_username
         self.assertEqual(user.username, new_username)
 
+
     # Getter/setter for password
-    @patch('hash.hash_password')
-    def test_get_set_password(self, mock_hash_password):
+    def test_get_set_password(self):
         username = "User1"
         password = "123456789"
-        mock_hash_password.return_value = 'hashed pass'
 
         user = User(username, password)
 
-        self.assertEqual(user.password, 'hashed pass')
+        self.assertEqual(user.password, password)
         
         new_password = "1234567890"
-        mock_hash_password.return_value = 'hashed pass2'
         user.password = new_password
-        self.assertEqual(user.password, 'hashed pass2')
+        self.assertEqual(user.password, new_password)
 
     # Getter/setter/deleter for contact
     def test_get_set_del_contact(self):
@@ -138,7 +142,7 @@ class User_management_test_class(unittest.TestCase):
         mock_hash_password.return_value = 'hashed pass'
 
         with self.assertRaises(ValueError):
-            register(username, password)
+            register(username, hash.hash_password(password))
     
     # Login with valid params
     @patch('multiprocessing.Process')

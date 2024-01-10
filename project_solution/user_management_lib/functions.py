@@ -12,10 +12,14 @@ def register(username, password):
         print("Username already exists. Please choose another username.")
         return None
 
-    new_user = User(username, password)
-    registered_users[username] = new_user
-    return new_user
-
+    if len(password) <= 12 and password.isdigit():
+        hashed_password = hash.hash_password(password)
+        new_user = User(username, hashed_password)
+        registered_users[username] = new_user
+        return new_user
+    else:
+        raise ValueError("The password can have a maximum of 12 characters and must be a digit")
+    
 def simulate_login(username):
         time.sleep(1)
         print(f"User {username} is logged in.")
@@ -29,7 +33,7 @@ def login(username, password):
     stored_user = registered_users[username]
     stored_hashed_password = stored_user.password
 
-    if stored_hashed_password != hash.hash_password(password):
+    if hash.check_password(password, stored_hashed_password):
         print("Invalid password. Please try again.")
         return
 
@@ -81,6 +85,10 @@ def print_contact(username):
             pass
     else:
         print(f"User {username} is not logged in. Please log in first.")
+
+
+    
+    
 
 
     

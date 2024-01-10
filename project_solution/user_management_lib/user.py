@@ -4,7 +4,7 @@ import hash
 class User:
     def __init__(self, username, password):
         self._username = username
-        self._password = self.validate_password(password)
+        self._password = password
         self._contacts = []
 
     @property
@@ -38,7 +38,7 @@ class User:
 
     def validate_password(self, password):
         if len(password) <= 12 and password.isdigit():
-            return hash.hash_password(password)
+            return password
         else:
             raise ValueError("The password can have a maximum of 12 characters")
 
