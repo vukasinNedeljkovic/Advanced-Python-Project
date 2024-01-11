@@ -18,9 +18,12 @@ def display_menu():
 def register_user():
     username = input("Enter username: ")
     password = input("Enter password: ")
-    user = register(username, password)
-    if user:
-        print("Registration successful.")
+    try:
+        user = register(username, password)
+        if user:
+            print("Registration successful.")
+    except ValueError as ve:
+        print("Registration failed. " + str(ve))
 
 def login_user():
     username = input("Enter username: ")

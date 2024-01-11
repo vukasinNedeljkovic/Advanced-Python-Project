@@ -25,9 +25,12 @@ def simulate_login(username):
         print(f"User {username} is logged in.")
 
 def login(username, password):
-
     if username not in registered_users:
         print("User is not registered. Please register first.")
+        return
+    
+    if username in logged_in_users:
+        print("User is already logged in.")
         return
     
     stored_user = registered_users[username]
@@ -41,6 +44,7 @@ def login(username, password):
 
     process = multiprocessing.Process(target=simulate_login, args=(username,))
     process.start()
+    process.join()
 
 def logout(username):
     if username in logged_in_users:
